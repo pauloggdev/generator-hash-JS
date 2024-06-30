@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador-de-hash</title>
+    <link rel="stylesheet" href="css/output.css">
+</head>
+
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h1 class="text-2xl font-bold mb-4">Gerador de hash</h1>
+        <p class="text-gray-700">Este conteúdo está centralizado na tela.</p>
+        <input type="text" value="2024-06-29;2024-06-29T16:53:59;FR 2024/1;200.00;" id="textHash" autofocus
+            placeholder="2024-06-29;2024-06-29T16:53:59;FR 2024/1;200.00;"
+            class="border-2 border-gray-300 bg-white h-10 px-5 pr-10 rounded-lg text-sm focus:outline-none focus:border-indigo-500">
+
+        <!-- Input file real escondido -->
+        <input type="file" accept=".pem" id="fileInput" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+
+        <button type="button" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
+            id="createHash">
+            Gerar
+        </button>
+        <div class="text-gray-700" id="newHash"></div>
+    </div>
+</body>
+
+</html>
+<script type="module">
+    import { CreateHash } from '../dist/bundle.js';
+
+    const btnCreateHash = document.getElementById("createHash");
+
+    btnCreateHash.addEventListener("click", function () {
+        const textHash = document.getElementById("textHash").value;
+        const filePrivateKey = document.getElementById("fileInput").files[0];
+        if (!filePrivateKey) throw new Error("file not found")
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const contents = e.target.result;
+            const privateKeyPem = contents;
+            
+            const createHash = new CreateHash();
+            const output = createHash.execute(textHash, privateKeyPem)
+            document.getElementById("newHash").innerHTML = output;
+        };
+        reader.readAsText(filePrivateKey);
+
+
+    })
+
+</script>

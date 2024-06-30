@@ -1,7 +1,6 @@
 import forge from 'node-forge';
-import Hash from './Hash';
 
-export default class CreateHash implements Hash {
+export class CreateHash {
     execute(textHash: string, privateKeyPem: string) {
         // Carregar a chave privada.pem
         const privateKey = forge.pki.privateKeyFromPem(privateKeyPem);
