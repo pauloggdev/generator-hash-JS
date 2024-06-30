@@ -7,3 +7,5 @@ esbuild.build({
   format: 'esm',
   sourcemap: true,
 }).catch(() => process.exit(1));
+
+// node build.js
